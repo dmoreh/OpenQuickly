@@ -1,0 +1,9 @@
+--exclude Pods
+
+--disable unusedArguments
+
+--patternlet inline
+--nospaceoperators ...,..<
+--self insert
+--wraparguments beforefirst
+--wrapcollections beforefirst
