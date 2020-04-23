@@ -13,6 +13,8 @@ enum KeyCode {
     static let enter: UInt16 = 36
     static let upArrow: UInt16 = 126
     static let downArrow: UInt16 = 125
+    static let n: UInt16 = 45
+    static let p: UInt16 = 35
 }
 
 class OpenQuicklyViewController: NSViewController, NSTextFieldDelegate {
@@ -20,6 +22,10 @@ class OpenQuicklyViewController: NSViewController, NSTextFieldDelegate {
     let IGNORED_KEYCODES = [
         KeyCode.esc, KeyCode.enter,
         KeyCode.upArrow, KeyCode.downArrow,
+    ]
+
+    let IGNORED_WITH_CONTROL_KEYCODES = [
+        KeyCode.n, KeyCode.p
     ]
 
     /// The data used to display the matches
@@ -120,7 +126,7 @@ class OpenQuicklyViewController: NSViewController, NSTextFieldDelegate {
         }
 
         // When down arrow pressed, if there is a selection move it down
-        if keyCode == KeyCode.downArrow {
+        if keyCode == KeyCode.downArrow || (keyCode == KeyCode.n && event.isHoldingControl) {
             if let currentSelection = selected {
                 self.setSelected(at: currentSelection + 1)
             }
@@ -129,7 +135,7 @@ class OpenQuicklyViewController: NSViewController, NSTextFieldDelegate {
         }
 
         // When uo arrow pressed, if there is a selection move it up
-        if keyCode == KeyCode.upArrow {
+        if keyCode == KeyCode.upArrow || (keyCode == KeyCode.p && event.isHoldingControl) {
             if let currentSelection = selected {
                 self.setSelected(at: currentSelection - 1)
             }
@@ -141,7 +147,7 @@ class OpenQuicklyViewController: NSViewController, NSTextFieldDelegate {
     }
 
     override func keyUp(with event: NSEvent) {
-        if self.IGNORED_KEYCODES.contains(event.keyCode) {
+        if self.IGNORED_KEYCODES.contains(event.keyCode) || (event.isHoldingControl && self.IGNORED_WITH_CONTROL_KEYCODES.contains(event.keyCode)) {
             return
         }
 
@@ -326,5 +332,11 @@ extension OpenQuicklyViewController: NSOutlineViewDelegate {
     /// The view for each item in the matches array
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
         return self.options.delegate?.openQuickly(item: item)
+    }
+}
+
+extension NSEvent {
+    var isHoldingControl: Bool {
+        return self.modifierFlags.rawValue & UInt(CGEventFlags.maskControl.rawValue) > 0
     }
 }
