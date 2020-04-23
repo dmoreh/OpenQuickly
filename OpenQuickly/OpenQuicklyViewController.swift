@@ -153,18 +153,18 @@ class OpenQuicklyViewController: NSViewController, NSTextFieldDelegate {
             return
         }
 
-        let value = self.searchField.stringValue
+        let query = self.searchField.stringValue
 
-        self.matches = self.options.delegate?.valueWasEntered(value)
+        self.matches = self.options.delegate?.matchesForSearchQuery(query)
 
         self.reloadMatches()
     }
 
     @objc func itemSelected() {
-        let selected = self.matchesList.item(atRow: self.matchesList.selectedRow) as Any
+        let selectedItem = self.matchesList.item(atRow: self.matchesList.selectedRow) as Any
 
         if let delegate = options.delegate {
-            delegate.itemWasSelected(selected: selected)
+            delegate.didSelectItem(selectedItem)
         }
 
         self.openQuicklyWindowController?.toggle()
@@ -333,7 +333,7 @@ extension OpenQuicklyViewController: NSOutlineViewDataSource {
 extension OpenQuicklyViewController: NSOutlineViewDelegate {
     /// The view for each item in the matches array
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
-        return self.options.delegate?.openQuickly(item: item)
+        return self.options.delegate?.viewForItem(item)
     }
 }
 

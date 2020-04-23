@@ -14,7 +14,7 @@ public protocol OpenQuicklyDelegate {
     ///
     /// - Parameters:
     ///   - item: The selected item
-    func itemWasSelected(selected item: Any)
+    func didSelectItem(_ item: Any)
 
     /// Called when a value was typed in the search bar
     ///
@@ -22,7 +22,7 @@ public protocol OpenQuicklyDelegate {
     ///   - value: The value entered in to the search field
     ///
     /// - Returns: Any matches based off the value typed
-    func valueWasEntered(_ value: String) -> [Any]
+    func matchesForSearchQuery(_ query: String) -> [Any]
 
     /// Given an item return a view to be used for that item in the matches list
     ///
@@ -30,8 +30,12 @@ public protocol OpenQuicklyDelegate {
     ///   - item: An item from the matches list
     ///
     /// - Returns: A view to display the given item in the matches list
-    func openQuickly(item: Any) -> NSView?
+    func viewForItem(_ item: Any) -> NSView?
 
     /// Called when the open quickly window is closed
     func windowDidClose()
+}
+
+extension OpenQuicklyDelegate {
+    func windowDidClose() {}
 }

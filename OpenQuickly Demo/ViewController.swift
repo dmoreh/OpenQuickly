@@ -96,7 +96,7 @@ class ViewController: NSViewController {
 }
 
 extension ViewController: OpenQuicklyDelegate {
-    func openQuickly(item: Any) -> NSView? {
+    func viewForItem(_ item: Any) -> NSView? {
         guard let language = item as? Language else { return nil }
 
         let view = NSStackView()
@@ -137,15 +137,15 @@ extension ViewController: OpenQuicklyDelegate {
         return view
     }
 
-    func valueWasEntered(_ value: String) -> [Any] {
+    func matchesForSearchQuery(_ query: String) -> [Any] {
         let matches = languages.filter {
-            $0.name.lowercased().contains(value.lowercased())
+            $0.name.lowercased().contains(query.lowercased())
         }
 
         return matches
     }
 
-    func itemWasSelected(selected item: Any) {
+    func didSelectItem(_ item: Any) {
         guard let language = item as? Language else { return }
 
         print("\(language.name) was selected")
