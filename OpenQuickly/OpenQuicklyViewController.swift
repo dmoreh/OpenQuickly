@@ -186,11 +186,16 @@ class OpenQuicklyViewController: NSViewController {
     }
 
     private func updateViewSize() {
+        self.stackView.spacing = self.matches.count > 0 ? 10.0 : 0.0
         let numMatches = self.matches.count > self.options.matchesShown
             ? self.options.matchesShown : self.matches.count
 
         let rowHeight = CGFloat(numMatches) * self.options.rowHeight
-        let newHeight = self.options.height + rowHeight
+        var newHeight = self.options.height + rowHeight
+        if numMatches > 0 {
+            newHeight += self.options.edgeInsets.bottom
+            newHeight += self.stackView.spacing
+        }
 
         let newSize = NSSize(width: options.width, height: newHeight)
 
@@ -203,7 +208,6 @@ class OpenQuicklyViewController: NSViewController {
         view.setFrameSize(newSize)
         self.transparentView.setFrameSize(newSize)
         view.window?.setFrame(frame, display: true)
-        self.stackView.spacing = self.matches.count > 0 ? 10.0 : 0.0
     }
 
     // MARK: - UI setup
