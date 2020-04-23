@@ -17,7 +17,7 @@ enum KeyCode {
     static let p: UInt16 = 35
 }
 
-class OpenQuicklyViewController: NSViewController, NSTextFieldDelegate {
+class OpenQuicklyViewController: NSViewController {
     /// KeyCodes that shouldn't update the searchField
     let IGNORED_KEYCODES = [
         KeyCode.esc, KeyCode.enter,
@@ -136,7 +136,7 @@ class OpenQuicklyViewController: NSViewController, NSTextFieldDelegate {
             return nil
         }
 
-        // When uo arrow pressed, if there is a selection move it up
+        // When up arrow pressed, if there is a selection move it up
         if keyCode == KeyCode.upArrow || (keyCode == KeyCode.p && event.isHoldingControl) {
             if let currentSelection = selected {
                 self.setSelected(at: currentSelection - 1)
@@ -146,18 +146,6 @@ class OpenQuicklyViewController: NSViewController, NSTextFieldDelegate {
         }
 
         return event
-    }
-
-    override func keyUp(with event: NSEvent) {
-        if self.IGNORED_KEYCODES.contains(event.keyCode) || (event.isHoldingControl && self.IGNORED_WITH_CONTROL_KEYCODES.contains(event.keyCode)) {
-            return
-        }
-
-        let query = self.searchField.stringValue
-
-        self.matches = self.options.delegate?.matchesForSearchQuery(query)
-
-        self.reloadMatches()
     }
 
     @objc func itemSelected() {
@@ -290,6 +278,14 @@ class OpenQuicklyViewController: NSViewController, NSTextFieldDelegate {
         ]
 
         NSLayoutConstraint.activate(stackViewConstraints)
+    }
+}
+
+extension OpenQuicklyViewController: NSTextFieldDelegate {
+    func controlTextDidChange(_ obj: Notification) {
+        let query = self.searchField.stringValue
+        self.matches = self.options.delegate?.matchesForSearchQuery(query)
+        self.reloadMatches()
     }
 }
 
