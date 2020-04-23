@@ -111,6 +111,8 @@ class OpenQuicklyViewController: NSViewController, NSTextFieldDelegate {
     }
 
     func keyDown(with event: NSEvent) -> NSEvent? {
+        guard let window = self.view.window, window.isVisible else { return event }
+
         let keyCode = event.keyCode
 
         // When esc pressed, close the window
