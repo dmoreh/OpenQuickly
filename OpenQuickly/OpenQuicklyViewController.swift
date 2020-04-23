@@ -193,7 +193,6 @@ class OpenQuicklyViewController: NSViewController {
         let rowHeight = CGFloat(numMatches) * self.options.rowHeight
         var newHeight = self.options.height + rowHeight
         if numMatches > 0 {
-            newHeight += self.options.edgeInsets.bottom
             newHeight += self.stackView.spacing
         }
 
@@ -269,11 +268,17 @@ class OpenQuicklyViewController: NSViewController {
         self.stackView.spacing = 0.0
         self.stackView.orientation = .vertical
         self.stackView.distribution = .fillEqually
-        self.stackView.edgeInsets = self.options.edgeInsets
+        self.stackView.edgeInsets.top = self.options.edgeInsets.top
+        self.stackView.edgeInsets.bottom = self.options.edgeInsets.bottom
         self.stackView.translatesAutoresizingMaskIntoConstraints = false
     }
 
     private func setupConstraints() {
+        let searchFieldConstraints = [
+            self.searchField.leftAnchor.constraint(equalTo: self.stackView.leftAnchor, constant: self.options.edgeInsets.left),
+            self.searchField.rightAnchor.constraint(equalTo: self.stackView.rightAnchor, constant: self.options.edgeInsets.right)
+        ]
+
         let stackViewConstraints = [
             stackView.topAnchor.constraint(equalTo: self.transparentView.topAnchor),
             self.stackView.bottomAnchor.constraint(equalTo: self.transparentView.bottomAnchor),
@@ -281,6 +286,7 @@ class OpenQuicklyViewController: NSViewController {
             self.stackView.trailingAnchor.constraint(equalTo: self.transparentView.trailingAnchor),
         ]
 
+        NSLayoutConstraint.activate(searchFieldConstraints)
         NSLayoutConstraint.activate(stackViewConstraints)
     }
 }
