@@ -203,7 +203,7 @@ class OpenQuicklyViewController: NSViewController {
         view.setFrameSize(newSize)
         self.transparentView.setFrameSize(newSize)
         view.window?.setFrame(frame, display: true)
-        self.stackView.spacing = self.matches.count > 0 ? 5.0 : 0.0
+        self.stackView.spacing = self.matches.count > 0 ? 10.0 : 0.0
     }
 
     // MARK: - UI setup
