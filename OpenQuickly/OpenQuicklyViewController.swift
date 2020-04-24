@@ -274,20 +274,18 @@ class OpenQuicklyViewController: NSViewController {
     }
 
     private func setupConstraints() {
-        let searchFieldConstraints = [
+        let constraints = [
+            // Search field constraints
             self.searchField.leftAnchor.constraint(equalTo: self.stackView.leftAnchor, constant: self.options.edgeInsets.left),
-            self.searchField.rightAnchor.constraint(equalTo: self.stackView.rightAnchor, constant: self.options.edgeInsets.right)
-        ]
 
-        let stackViewConstraints = [
+            // Stack view constraints
             stackView.topAnchor.constraint(equalTo: self.transparentView.topAnchor),
             self.stackView.bottomAnchor.constraint(equalTo: self.transparentView.bottomAnchor),
             self.stackView.leadingAnchor.constraint(equalTo: self.transparentView.leadingAnchor),
             self.stackView.trailingAnchor.constraint(equalTo: self.transparentView.trailingAnchor),
         ]
 
-        NSLayoutConstraint.activate(searchFieldConstraints)
-        NSLayoutConstraint.activate(stackViewConstraints)
+        NSLayoutConstraint.activate(constraints)
     }
 }
 
