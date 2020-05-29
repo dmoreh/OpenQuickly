@@ -45,6 +45,8 @@ class OpenQuicklyViewController: NSViewController {
     private var matchesList: NSOutlineView!
     private var transparentView: NSVisualEffectView!
 
+    private var eventMonitor: Any?
+
     /// The Open Quickly window controller instance for this view
     private var openQuicklyWindowController: OpenQuicklyWindowController? {
         return view.window?.windowController as? OpenQuicklyWindowController
@@ -93,7 +95,12 @@ class OpenQuicklyViewController: NSViewController {
 
         self.matchesList.doubleAction = #selector(self.itemSelected)
 
-        NSEvent.addLocalMonitorForEvents(matching: .keyDown, handler: self.keyDown)
+        self.eventMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown, handler: self.keyDown)
+    }
+
+    deinit {
+        guard let eventMonitor = self.eventMonitor else { return }
+        NSEvent.removeMonitor(eventMonitor)
     }
 
     override func viewWillAppear() {
