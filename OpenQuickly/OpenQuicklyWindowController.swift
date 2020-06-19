@@ -37,7 +37,7 @@ open class OpenQuicklyWindowController: NSWindowController {
         }
     }
 
-    public func show() {
+    public func showWithoutActivation() {
         guard let window = self.window else { return }
 
         window.makeKeyAndOrderFront(self)
@@ -45,6 +45,10 @@ open class OpenQuicklyWindowController: NSWindowController {
         window.center()
         window.orderFrontRegardless()
         showWindow(self)
+    }
+
+    public func show() {
+        self.showWithoutActivation()
 
         NSRunningApplication.current.activate(options: [.activateIgnoringOtherApps])
     }
