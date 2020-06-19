@@ -40,13 +40,13 @@ open class OpenQuicklyWindowController: NSWindowController {
     func show() {
         guard let window = self.window else { return }
 
+        NSRunningApplication.current.activate(options: [.activateIgnoringOtherApps])
+
         window.makeKeyAndOrderFront(self)
         window.level = .floating
         window.center()
         window.orderFrontRegardless()
         showWindow(self)
-
-        NSRunningApplication.current.activate(options: [.activateIgnoringOtherApps])
     }
 
     public func toggle() {
