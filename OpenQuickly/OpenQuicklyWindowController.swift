@@ -45,6 +45,12 @@ open class OpenQuicklyWindowController: NSWindowController {
         window.center()
         window.orderFrontRegardless()
         showWindow(self)
+
+        guard let oqWindow = self.window as? OpenQuicklyWindow,
+              let oqViewController = oqWindow.contentViewController as? OpenQuicklyViewController else {
+            return
+        }
+        oqViewController.windowDidShow()
     }
 
     public func show() {

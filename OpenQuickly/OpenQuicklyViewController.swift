@@ -302,6 +302,11 @@ extension OpenQuicklyViewController: NSTextFieldDelegate {
         self.matches = self.options.delegate?.matchesForSearchQuery(query)
         self.reloadMatches()
     }
+
+    func windowDidShow() {
+        self.matches = self.options.delegate?.matchesForSearchQuery("")
+        self.reloadMatches()
+    }
 }
 
 extension OpenQuicklyViewController: NSOutlineViewDataSource {
