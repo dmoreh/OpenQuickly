@@ -130,7 +130,7 @@ class OpenQuicklyViewController: NSViewController {
 
         // When enter pressed, indicate that an item was selected
         if keyCode == KeyCode.enter {
-            self.itemSelected()
+            self.notifyDelegateOfSelection(event.modifierFlags)
             return nil
         }
 
@@ -156,10 +156,14 @@ class OpenQuicklyViewController: NSViewController {
     }
 
     @objc func itemSelected() {
+        self.notifyDelegateOfSelection()
+    }
+
+    func notifyDelegateOfSelection(_ modifierFlags: NSEvent.ModifierFlags? = nil) {
         let selectedItem = self.matchesList.item(atRow: self.matchesList.selectedRow) as Any
 
         if let delegate = options.delegate {
-            delegate.didSelectItem(selectedItem)
+            delegate.didSelectItem(selectedItem, modifierFlags: modifierFlags)
         }
 
         self.openQuicklyWindowController?.toggle()

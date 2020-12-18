@@ -145,7 +145,7 @@ extension ViewController: OpenQuicklyDelegate {
         return matches
     }
 
-    func didSelectItem(_ item: Any) {
+    func didSelectItem(_ item: Any, modifierFlags: NSEvent.ModifierFlags?) {
         guard let language = item as? Language else { return }
 
         print("\(language.name) was selected")

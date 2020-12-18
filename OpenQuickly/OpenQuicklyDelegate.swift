@@ -14,7 +14,7 @@ public protocol OpenQuicklyDelegate {
     ///
     /// - Parameters:
     ///   - item: The selected item
-    func didSelectItem(_ item: Any)
+    func didSelectItem(_ item: Any, modifierFlags: NSEvent.ModifierFlags?)
 
     /// Called when a value was typed in the search bar
     ///
